@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="Author" content="Daniel Nicholas">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Password Generator | Clipboard</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta2/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+            user-select: none;
+        }
+
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: #f8f8f8;
+        }
+
+        .input_box {
+            position: relative;
+            width: 450px;
+        }
+
+        .input_box h2 {
+            font-size: 25px;
+            color: #333;
+        }
+
+        .input_box input {
+            position: relative;
+            width: 100%;
+            height: 60px;
+            border: none;
+            margin: 15px 0 20px;
+            background: transparent;
+            outline: none;
+            padding: 0 20px;
+            font-size: 24px;
+            letter-spacing: 4px;
+            box-sizing: border-box;
+            border-radius: 8px;
+            color: #333;
+            box-shadow: -4px -4px 10px rgba(255, 255, 255, 1), inset 4px 4px 10px rgba(0, 0, 0, 0.05), inset -4px -4px 10px rgba(255, 255, 255, 1), inset 4px 4px 10px rgba(0, 0, 0, 0.05);
+        }
+
+        .input_box input::placeholder {
+            letter-spacing: 0px;
+        }
+
+        .input_box #btn {
+            position: relative;
+            cursor: crosshair;
+            color: #fff;
+            background: #333;
+            font-size: 24px;
+            display: inline-block;
+            padding: 10px 15px;
+            border-radius: 8px;
+        }
+
+        .input_box #btn:active {
+            background: #9c27b0;
+        }
+
+        .fa-clipboard {
+            font-size: 24px;
+            position: absolute;
+            top: 64px;
+            right: 15px;
+            cursor: crosshair;
+            opacity: 0.5;
+        }
+
+        .fa-clipboard:hover {
+            opacity: 1;
+        }
+
+        .alert_box {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: #9c27b0;
+            color: #fff;
+            text-align: center;
+            font-size: 4em;
+            display: none;
+        }
+
+        .alert_box.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="input_box">
+        <h2>Random Password Generator</h2>
+        <input type="text" placeholder="Generate Password" id="password" readonly>
+        <i class="fa-solid fa-clipboard copy" onclick="copy()"></i>
+        <div id="btn" onclick="generate()">Generate Password</div>
+    </div>
+
+    <div class="alert_box"></div>
+    <script>
+        var alert_box = document.querySelector('.alert_box');
+
+        function generate() {
+            var chars = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*()_?<>:{}[]";
+
+            var password_length = 16;
+
+            var password = "";
+
+            for (var i = 0; i < password_length; i++) {
+                var random_number = Math.floor(Math.random() * chars.length);
+                password += chars.substring(random_number, random_number + 1);
+            }
+
+            document.getElementById('password').value = password;
+            alert_box.innerHTML = "New Password Copied: <br>" + password; 
+        }
+
+        function copy() {
+            var copy_text = document.getElementById('password');
+            copy_text.select();
+            copy_text.setSelectionRange(0, 9999);
+            document.execCommand('copy');
+            alert_box.classList.toggle('active');
+
+            setTimeout(function() {
+                alert_box.classList.toggle('active');
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
